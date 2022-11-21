@@ -64,7 +64,7 @@
 
 ## 배열
 
-- 자바와 동일   
+- 자바와 유사
 
 [Example 1]
 
@@ -94,7 +94,8 @@ Console.WriteLine(ch1); // 출력 결과: H
 Console.WriteLine(ch2); // 출력 결과: e
 ```
 
-[Example 2]
+[Example 2 - 다차원배열]
+
 ```csharp
 int[,] arr2 = new int[10, 5]; // 2차원 배열
 short[,,] arr3 = new short[8, 3, 10]; // 3차원 배열
@@ -121,7 +122,12 @@ int[,,] arr5 = new int[2, 3, 4]
 };
 ```
 
+- 가변 배열 (jagged array)
+    - [m,n] 차원을 갖는 경우 무조건 m*n 개의 요소가 할당 돼 상황에 따라 자칫 메모리를 크게 낭비하는 경우가 발생한다. **하지만 가변 배열은 각 요소별로 필요한 만큼의 배열 크기를 임의로 결정할 수 있어 메모리를 최적화된 상태로 사용할 수 있다.**
+        - 다만 기억하기 힘들고 유지보수가 m,n에 비해 쉽지 않기에 다차원 배열처럼 m*n개로 사용하는 경우가 좀 더 일반적이다
+
 [Example 3 - 가변 배열(jagged array)]
+
 ```csharp
 int[][] arr = new int[5][]; // 2차원 가변 배열
 
@@ -131,3 +137,125 @@ arr[2] = new int[8];
 arr[3] = new int[3];
 arr[4] = new int[5];
 ```
+
+- `new` 키워드는 참조 형식과 함께 사용되는 경우 그에 필요한 메모리를 힙에 할당하는 역할을 함
+- 배열의 값을 별도로 힙에 할당한다. **배열도 참조 형식에 속한다.**
+- **자바와 달리 c# string에서는 개별 char 문자에 접근할 수 있는 대괄호 구문을 제공함**
+    - string 타입이 인덱서를 구현햇기 때문에 배열처럼 다룰 수 있음
+    - 반면에, java는 str.charAt(0) 이런식으로 메소드를 써야 했음
+
+## 제어문
+
+### 선택문
+
+- 삼항 연산자(ternary operator) = 조건 연산자
+    - 피연산자가 3개
+    
+    ```csharp
+    int value = 5;
+    string result = (value % 2 == 0) ? "짝수":"홀수"; // result에는 "홀수" 대입
+    ```
+    
+- switch 문
+    - switch (인스턴스)  인스턴스로 지정이 가능한 타입 : 정수형, 문자형, 불린형, 열거형(4절 객체지향 문법에 나옴)
+    - 조건이 많아지면 swtich 문을 쓰는 편이 직관적인 코드 해석에 도움됨
+
+```csharp
+char ch = 'F';
+
+switch (ch)
+{
+    case 'M':
+        Console.WriteLine("남성");
+        break;
+    case 'F':
+        Console.WriteLine("여성");
+        break;
+
+    default:
+        Console.WriteLine("알 수 없음");
+        break;
+}
+```
+
+### 반복문
+
+- 증감 연산자
+    - foreach문
+        - 배열, 컬렉션 사용 가능
+    
+    ```csharp
+    int[] arr = new int[] { 1, 2, 3, 4, 5 };
+    
+    foreach (int elem in arr)
+    {
+        Console.WriteLine(elem);
+    }
+    ```
+    
+
+### 점프문
+
+break, continue, goto, return, throw 
+
+- break
+- continue
+    - 들여쓰기나 블록의 수를 줄일 수 잇어 **좀 더 구조적인 코드를 만들 수 있게 해줌**
+
+```csharp
+int sum = 0;
+int n = 1;
+
+while (n++ <= 1000)
+{
+    if ((n % 2) != 0) continue;
+    if ((n % 3) != 0) continue;
+    if ((n % 5) != 0) continue;
+    sum += n;
+}
+
+Console.WriteLine(sum);
+```
+
+- goto
+    - 제어문의 원조..
+    - 가독성이 떨어짐
+    
+    ```csharp
+    int sum = 0;
+    int n = 0;
+    
+    LOOP:
+    n++;
+    
+    if (n > 1000)
+    {
+        goto LOOPEXIT;
+    }
+    
+    if ((n % 2) != 0) goto LOOP;
+    sum += n;
+    goto LOOP;
+    
+    LOOPEXIT:
+    
+    Console.WriteLine(sum);
+    ```
+    
+    - gote는 절대 써서는 안 되는 것으로 단정 짓는 개발자들도 꽤 있지만,
+    유용하다고 합의 보는 사례가 있음
+    - **중첩 루프에서 탈출**
+        - 전체 루프를 탈출하기 위해 별도의 조건 변수를 두고 이중으로 써야하는 구조가 나올 때 쓰면 이해하기 쉬운 구조로 바뀜
+    
+    ```csharp
+    for (int x = 2; x < 10; x++)
+    {
+        for (int y = 1; y < 10; y++)
+        {
+            Console.WriteLine(x + " * " + y + " = " + (x * y));
+            if (x == 5 && y == 8) goto LOOP_EXIT;
+        }
+    }
+    
+    LOOP_EXIT:;
+    ```
