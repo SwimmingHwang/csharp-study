@@ -64,7 +64,9 @@
 
 ## 배열
 
-- 자바와 동일
+- 자바와 동일   
+
+[Example 1]
 
 ```csharp
 int product1 = 5000;
@@ -92,6 +94,7 @@ Console.WriteLine(ch1); // 출력 결과: H
 Console.WriteLine(ch2); // 출력 결과: e
 ```
 
+[Example 2]
 ```csharp
 int[,] arr2 = new int[10, 5]; // 2차원 배열
 short[,,] arr3 = new short[8, 3, 10]; // 3차원 배열
@@ -118,6 +121,7 @@ int[,,] arr5 = new int[2, 3, 4]
 };
 ```
 
+[Example 3 - 가변 배열(jagged array)]
 ```csharp
 int[][] arr = new int[5][]; // 2차원 가변 배열
 
@@ -127,7 +131,3 @@ arr[2] = new int[8];
 arr[3] = new int[3];
 arr[4] = new int[5];
 ```
-
-## 제어문
-
--
